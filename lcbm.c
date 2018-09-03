@@ -6,18 +6,18 @@ struct Person{
     struct Person *next;
 };
 
-void addPerson(struct Person **head_ref, int newPosition){
+void addPerson(struct Person** line, int newPosition){
     struct Person *newPerson = (struct Person *)malloc(sizeof(struct Person));
-    newPerson->position = newPosition;
-    newPerson->next = (*head_ref);
-    (*head_ref) = newPerson;
+    newPerson -> position = newPosition;
+    newPerson -> next = (*line);
+    (*line) = newPerson;
 }
 
-void removePerson(struct Person **head_ref, int newPosition){
-    struct Person* auxiliar = *head_ref, *prev;
+void removePerson(struct Person **line, int newPosition){
+    struct Person* auxiliar = *line, *prev;
 
     if (auxiliar != NULL && auxiliar -> position == newPosition){
-        *head_ref = auxiliar -> next; 
+        *line = auxiliar -> next; 
         free(auxiliar);
         return;
     }
@@ -37,7 +37,7 @@ void removePerson(struct Person **head_ref, int newPosition){
 
 void showQueue(struct Person *person){
     while (person != NULL){
-        printf(" %d ", person -> position);
+        printf("%d ", person -> position);
         person = person -> next;
     }
 }
@@ -47,10 +47,9 @@ int main(){
 
     int inputs = 0;
     scanf("%d", &inputs);
-
-    while (inputs --){
+    while (inputs--){
         int address = 0;
-        scanf("%d", address);
+        scanf("%d", &address);
         addPerson(&head, address);
     };
 
@@ -58,11 +57,13 @@ int main(){
     scanf("%d", &outputs);
     while (outputs--){
         int address = 0;
-        scanf("%d", address);
+        scanf("%d", &address);
         removePerson(&head, address);
     };
 
     showQueue(head);
+    printf("\n");
+    free(head);
 
     return 0;
 }
