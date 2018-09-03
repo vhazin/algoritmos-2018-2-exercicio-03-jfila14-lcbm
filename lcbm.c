@@ -53,9 +53,10 @@ int main(){
         scanf("%d", address);
         addPerson(&head, address);
     };
-    
-    inputs = 0;
-    while (inputs--){
+
+    int outputs = 0;
+    scanf("%d", &outputs);
+    while (outputs--){
         int address = 0;
         scanf("%d", address);
         removePerson(&head, address);
