@@ -1,69 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Person{
+typedef struct node{
     int position;
-    struct Person *next;
-};
+    struct node *next;
+} Node;
 
-void addPerson(struct Person** line, int newPosition){
-    struct Person *newPerson = (struct Person *)malloc(sizeof(struct Person));
-    newPerson -> position = newPosition;
-    newPerson -> next = (*line);
-    (*line) = newPerson;
-}
+void insert(Node** head, int newPosition);
+void delete(Node** head, int newPosition);
+void printList(Node** head);
 
-void removePerson(struct Person **line, int newPosition){
-    struct Person* auxiliar = *line, *prev;
+int main(void){
+    Node *head = NULL;
 
-    if (auxiliar != NULL && auxiliar -> position == newPosition){
-        *line = auxiliar -> next; 
-        free(auxiliar);
-        return;
-    }
-
-    while (auxiliar != NULL && auxiliar->position != newPosition){
-        prev = auxiliar;
-        auxiliar = auxiliar->next;
-    }
-
-    if (auxiliar == NULL)
-        return;
-
-    prev -> next = auxiliar -> next;
-
-    free(auxiliar);
-}
-
-void showQueue(struct Person *person){
-    while (person != NULL){
-        printf("%d ", person -> position);
-        person = person -> next;
-    }
-}
-
-int main(){
-    struct Person *head = NULL;
-
-    int inputs = 0;
-    scanf("%d", &inputs);
-    while (inputs--){
-        int address = 0;
-        scanf("%d", &address);
-        addPerson(&head, address);
+    int peopleIN;
+    scanf("%d", &peopleIN);
+    while (peopleIN--){
+        int newPosition;
+        scanf("%d", &newPosition);
+        insert(&head, newPosition);
     };
 
-    int outputs = 0;
-    scanf("%d", &outputs);
-    while (outputs--){
-        int address = 0;
-        scanf("%d", &address);
-        removePerson(&head, address);
+    int peopleOUT;
+    scanf("%d", &peopleOUT);
+    while (peopleOUT--){
+        int newPosition;
+        scanf("%d", &newPosition);
+        delete(&head, newPosition);
     };
 
-    showQueue(head);
+    printList(&head);
     printf("\n");
-    free(head);
 
     return 0;
+}
+
+void insert(Node** head, int newPosition){
+    Node *current = (Node *)malloc(sizeof(Node));
+    current -> position = newPosition;
+    current -> next = NULL;
+
+    if(*head == NULL){
+        *head = current;
+        return;
+    } else {
+        Node *tail = *head;
+        while(tail -> next)
+            tail = tail -> next;
+        tail -> next = current;
+    }
+}
+
+void delete(Node** head, int newPosition){
+    Node *pointer = *head, *prev;
+
+    if (pointer != NULL && pointer -> position == newPosition){
+        *head = pointer -> next;
+        free(pointer);
+        return;
+    }
+
+    while (pointer != NULL && pointer -> position != newPosition){
+        prev = pointer;
+        pointer = pointer -> next;
+    }
+
+    if (pointer == NULL)
+        return;
+
+    prev -> next = pointer -> next;
+    free(pointer);
+}
+
+void printList(Node** head){
+    Node *pointer = *head;
+    while (pointer != NULL){
+        printf("%d ", pointer -> position);
+        pointer = pointer -> next;
+    }
 }
