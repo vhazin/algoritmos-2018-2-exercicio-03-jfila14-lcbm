@@ -8,7 +8,7 @@ typedef struct node{
 
 void insert(Node** head, int newPosition);
 void delete(Node** head, int newPosition);
-void printList(Node** head);
+void printList(Node* head);
 
 int main(void){
     Node *head = NULL;
@@ -29,53 +29,47 @@ int main(void){
         delete(&head, newPosition);
     };
 
-    printList(&head);
+    printList(head);
     printf("\n");
-
     return 0;
 }
 
 void insert(Node** head, int newPosition){
     Node *current = (Node *)malloc(sizeof(Node));
-    current -> position = newPosition;
-    current -> next = NULL;
+    current->position = newPosition;
+    current->next = NULL;
 
     if(*head == NULL){
         *head = current;
         return;
     } else {
         Node *tail = *head;
-        while(tail -> next)
-            tail = tail -> next;
-        tail -> next = current;
+        while(tail->next)
+            tail = tail->next;
+        tail->next = current;
     }
 }
 
 void delete(Node** head, int newPosition){
     Node *pointer = *head, *prev;
-
-    if (pointer != NULL && pointer -> position == newPosition){
-        *head = pointer -> next;
+    if (pointer == NULL)
+        return;
+    if (pointer->position == newPosition){
+        *head = pointer->next;
         free(pointer);
         return;
     }
-
-    while (pointer != NULL && pointer -> position != newPosition){
+    while (pointer->position != newPosition){
         prev = pointer;
-        pointer = pointer -> next;
+        pointer = pointer->next;
     }
-
-    if (pointer == NULL)
-        return;
-
-    prev -> next = pointer -> next;
+    prev->next = pointer->next;
     free(pointer);
 }
 
-void printList(Node** head){
-    Node *pointer = *head;
-    while (pointer != NULL){
-        printf("%d ", pointer -> position);
-        pointer = pointer -> next;
+void printList(Node* head){
+    while (head != NULL){
+        printf("%d ", head->position);
+        head = head->next;
     }
 }
