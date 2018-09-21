@@ -3,68 +3,66 @@
 
 typedef struct node{
     int position;
-    struct node *next;
+    struct node *next, *tail;
 } Node;
 
-void insert(Node** head, int newPosition);
+void insert(Node** head, Node** tail, int newPosition);
 void delete(Node** head, int newPosition);
 void printList(Node* head);
 
 int main(void){
-    Node *head = NULL;
+    Node *head = NULL, *tail = NULL;
 
     int peopleIN;
     scanf("%d", &peopleIN);
     while (peopleIN--){
         int newPosition;
         scanf("%d", &newPosition);
-        insert(&head, newPosition);
-    };
-
+        insert(&head, &tail, newPosition);
+    }
     int peopleOUT;
     scanf("%d", &peopleOUT);
     while (peopleOUT--){
         int newPosition;
         scanf("%d", &newPosition);
         delete(&head, newPosition);
-    };
-
+    }
     printList(head);
     printf("\n");
     return 0;
 }
 
-void insert(Node** head, int newPosition){
+void insert(Node** head, Node** tail, int newPosition){
     Node *current = (Node *)malloc(sizeof(Node));
     current->position = newPosition;
     current->next = NULL;
 
     if(*head == NULL){
         *head = current;
+        *tail = current;
         return;
     } else {
-        Node *tail = *head;
-        while(tail->next)
-            tail = tail->next;
-        tail->next = current;
+        (*tail)->next = current;
+        *tail = (*tail)->next;
     }
 }
 
-void delete(Node** head, int newPosition){
-    Node *pointer = *head, *prev;
-    if (pointer == NULL)
+void delete(Node **head, int position){ 
+    Node* current = *head, *prev;
+
+    if (current == NULL)
         return;
-    if (pointer->position == newPosition){
-        *head = pointer->next;
-        free(pointer);
-        return;
+    if (current->position == position){
+        *head = current->next;
+        free(current);
+        return; 
     }
-    while (pointer->position != newPosition){
-        prev = pointer;
-        pointer = pointer->next;
+    while (current->position != position){ 
+        prev = current; 
+        current = current->next; 
     }
-    prev->next = pointer->next;
-    free(pointer);
+    prev->next = current->next;  
+    free(current); 
 }
 
 void printList(Node* head){
