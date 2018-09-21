@@ -1,4 +1,4 @@
-# JQUEUE - Queue 
+# JFILA14 - Fila
 ![PyPI - Status](https://img.shields.io/pypi/status/Django.svg)
 
 JQUEUE is a Queue challenge from phase 1 of the Brazilian Computing Olympics 2014. This repo is an attempt to solve [SPOJ's version](https://br.spoj.com/problems/JFILA14/) of the problem.
